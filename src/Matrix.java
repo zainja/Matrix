@@ -26,7 +26,7 @@ public class Matrix implements MatrixInterface{
 
 
     @Override
-    public void addition(int row1, int row2, int destination) {
+    public void rowAddition(int row1, int row2, int destination) {
         if(row1 < this.matrix[0].length && row2 < this.matrix[0].length)
         {
             for(int index = 0; index< this.matrix[0].length; index++)
@@ -37,7 +37,7 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void addition(int row1, int row2, int destination, int coefficient1, int coefficient2) {
+    public void rowAddition(int row1, int row2, int destination, int coefficient1, int coefficient2) {
 
     }
 
