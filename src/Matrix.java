@@ -27,9 +27,9 @@ public class Matrix implements MatrixInterface{
 
     @Override
     public void addition(int row1, int row2, int destination) {
-        if(row1 < this.matrix[0].length && row2 < matrix[0].length)
+        if(row1 < this.matrix[0].length && row2 < this.matrix[0].length)
         {
-            for(int index = 0; index< matrix[0].length; index++)
+            for(int index = 0; index< this.matrix[0].length; index++)
             {
                 this.matrix[destination][index] = this.matrix[row1][index] + this.matrix[row2][index];
             }
@@ -43,6 +43,10 @@ public class Matrix implements MatrixInterface{
 
     @Override
     public void rowMultiplication(int row, int number) {
+        for(int index =0; index<this.matrix[row].length; index++)
+        {
+            this.matrix[row][index] = this.matrix[row][index] * number;
+        }
     }
 
     @Override
@@ -64,7 +68,7 @@ public class Matrix implements MatrixInterface{
     public void printMatrix() {
         for(int[] row: this.matrix)
         {
-            System.out.print("[");
+            System.out.print("[ ");
             for(int number: row)
             {
                 System.out.print(number + " ");
