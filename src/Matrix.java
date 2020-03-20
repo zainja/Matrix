@@ -7,11 +7,13 @@ public class Matrix implements MatrixInterface{
     public Matrix(int row, int col)
     {
         this.matrix = new int[row][col];
-
     }
     public Matrix(int [][] matrix)
     {
         this.matrix = matrix;
+        this.row = matrix.length;
+        this.col = matrix[0].length;
+        System.out.printf("matrix rows: %d columns: %d \n", this.row, this.col);
     }
 
     public int getRow()
@@ -26,8 +28,9 @@ public class Matrix implements MatrixInterface{
 
 
     @Override
-    public void rowAddition(int row1, int row2, int destination) {
-        if(row1 < this.matrix[0].length && row2 < this.matrix[0].length)
+    public void rowAddition(int row1, int row2, int destination)
+    {
+        if(row1 < row && row2 < row)
         {
             for(int index = 0; index< this.matrix[0].length; index++)
             {
@@ -37,35 +40,66 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void rowAddition(int row1, int row2, int destination, int coefficient1, int coefficient2) {
+    public void rowAddition(int row1, int row2, int destination, int coefficient1, int coefficient2)
+    {
 
     }
 
     @Override
-    public void rowMultiplication(int row, int number) {
+    public void rowMultiplication(int row, int number)
+    {
         for(int index =0; index<this.matrix[row].length; index++)
         {
             this.matrix[row][index] = this.matrix[row][index] * number;
         }
     }
 
+
     @Override
-    public Matrix ref() {
+    public int[] solve()
+    {
         return null;
     }
 
-    @Override
-    public Matrix rref() {
-        return null;
+    public static Matrix matrixMultiplication(Matrix matrixA, Matrix matrixB) {
+        int [][] matrixResult = new int[matrixA.row][matrixB.col];
+
+        if(matrixA.col != matrixB.row)
+        {
+            return null;
+        }
+        for(int i = 0; i<matrixResult.length; i ++)
+        {
+            for(int j=0; j<matrixB.col; j++)
+            {
+                int sum = 0;
+                for(int k = 0; k<matrixA.row; k ++)
+                {
+                    sum += matrixA.matrix[i][k]*matrixB.matrix[k][j];
+                }
+                matrixResult[i][j] = sum;
+            }
+        }
+
+        return new Matrix(matrixResult);
     }
 
     @Override
-    public Matrix solve() {
-        return null;
+    public Matrix transpose() {
+        int [] [] tempArray = new int[this.col][this.row];
+        for(int i= 0; i < this.col; i ++)
+        {
+            for(int j = 0; j < this.row; j ++)
+            {
+                tempArray[i][j] = this.matrix[j][i];
+            }
+        }
+        return new Matrix(tempArray);
     }
 
     @Override
-    public void printMatrix() {
+    public void printMatrix()
+    {
         for(int[] row: this.matrix)
         {
             System.out.print("[ ");
