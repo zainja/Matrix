@@ -1,3 +1,5 @@
+package matrix;
+
 public class Matrix implements MatrixInterface{
     private int row;
     private int col;
@@ -8,6 +10,7 @@ public class Matrix implements MatrixInterface{
     {
         this.matrix = new int[row][col];
     }
+
     public Matrix(int [][] matrix)
     {
         this.matrix = matrix;
@@ -40,8 +43,26 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
+    public void rowSwap(int row, int row2) {
+        for(int index = 0; index< this.col; index ++)
+        {
+            int temp = this.matrix[row2][index];
+            this.matrix[row2][index] = this.matrix[row][index];
+            this.matrix[row][index] = temp;
+        }
+    }
+
+    @Override
     public void rowAddition(int row1, int row2, int destination, int coefficient1, int coefficient2)
     {
+        if(row1 < row && row2 < row)
+        {
+            for(int index = 0; index< this.matrix[0].length; index++)
+            {
+                this.matrix[destination][index] = coefficient1*this.matrix[row1][index] +
+                        coefficient2*this.matrix[row2][index];
+            }
+        }
 
     }
 
@@ -56,8 +77,7 @@ public class Matrix implements MatrixInterface{
 
 
     @Override
-    public int[] solve()
-    {
+    public int[] solve(){
         return null;
     }
 
@@ -98,16 +118,16 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void printMatrix()
-    {
+    public void printMatrix() {
         for(int[] row: this.matrix)
         {
-            System.out.print("[ ");
+            System.out.print("{");
             for(int number: row)
             {
                 System.out.print(number + " ");
             }
-            System.out.println("]");
+            System.out.println("}");
         }
+
     }
 }
