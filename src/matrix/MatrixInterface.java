@@ -1,12 +1,11 @@
 package matrix;
 
 public interface MatrixInterface {
-    public void rowAddition(int row1, int row2,int destination);
-    public void rowAddition(int row1, int row2,int destination, int coefficient1, int coefficient2);
-    public void rowMultiplication(int row, int number);
-    public  void rowSwap(int row, int row2);
-    public int [] solve();
-    public void printMatrix();
-    public Matrix transpose();
+    void rowAddition(int row1, int row2,int destination);
+    void rowAddition(int row1, int row2, int destination, double coefficient1, double coefficient2);
+    void rowMultiplication(int row, double number);
+    void rowSwap(int row, int row2);
+    void solve();
+    Matrix transpose();
 
 }
