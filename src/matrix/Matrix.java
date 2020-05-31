@@ -3,16 +3,15 @@ package matrix;
 public class Matrix implements MatrixInterface{
     private int row;
     private int col;
-    private int [][] matrix;
+    private double [][] matrix;
 
     // populate a zero n x m array
     public Matrix(int row, int col)
     {
-        this.matrix = new int[row][col];
+        this.matrix = new double[row][col];
     }
 
-    public Matrix(int [][] matrix)
-    {
+    public Matrix(double [][] matrix) {
         this.matrix = matrix;
         this.row = matrix.length;
         this.col = matrix[0].length;
@@ -46,7 +45,7 @@ public class Matrix implements MatrixInterface{
     public void rowSwap(int row, int row2) {
         for(int index = 0; index< this.col; index ++)
         {
-            int temp = this.matrix[row2][index];
+            double temp = this.matrix[row2][index];
             this.matrix[row2][index] = this.matrix[row][index];
             this.matrix[row][index] = temp;
         }
@@ -67,10 +66,8 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void rowMultiplication(int row, int number)
-    {
-        for(int index =0; index<this.matrix[row].length; index++)
-        {
+    public void rowMultiplication(int row, double number) {
+        for(int index =0; index<this.matrix[row].length; index++) {
             this.matrix[row][index] = this.matrix[row][index] * number;
         }
     }
@@ -106,7 +103,7 @@ public class Matrix implements MatrixInterface{
 
     @Override
     public Matrix transpose() {
-        int [] [] tempArray = new int[this.col][this.row];
+        double [] [] tempArray = new double [this.col][this.row];
         for(int i= 0; i < this.col; i ++)
         {
             for(int j = 0; j < this.row; j ++)
