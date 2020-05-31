@@ -28,6 +28,17 @@ public class Matrix implements MatrixInterface{
         return col;
     }
 
+    public static Matrix identityMatrix(int size){
+        double [][] matrix = new double [size][size];
+        for(int i=0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                if (i == j){
+                    matrix[i][j] = 1;
+                }
+            }
+        }
+        return new Matrix(matrix);
+    }
 
     @Override
     public void rowAddition(int row1, int row2, int destination)
