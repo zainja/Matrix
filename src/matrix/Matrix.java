@@ -41,12 +41,9 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void rowAddition(int row1, int row2, int destination)
-    {
-        if(row1 < row && row2 < row)
-        {
-            for(int index = 0; index< this.matrix[0].length; index++)
-            {
+    public void rowAddition(int row1, int row2, int destination) {
+        if(row1 < row && row2 < row) {
+            for(int index = 0; index< this.matrix[0].length; index++) {
                 this.matrix[destination][index] = this.matrix[row1][index] + this.matrix[row2][index];
             }
         }
@@ -63,12 +60,9 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void rowAddition(int row1, int row2, int destination, int coefficient1, int coefficient2)
-    {
-        if(row1 < row && row2 < row)
-        {
-            for(int index = 0; index< this.matrix[0].length; index++)
-            {
+    public void rowAddition(int row1, int row2, int destination, double coefficient1, double coefficient2) {
+        if(row1 < row && row2 < row) {
+            for(int index = 0; index< this.matrix[0].length; index++) {
                 this.matrix[destination][index] = coefficient1*this.matrix[row1][index] +
                         coefficient2*this.matrix[row2][index];
             }
@@ -85,31 +79,52 @@ public class Matrix implements MatrixInterface{
 
 
     @Override
-    public int[] solve(){
-        return null;
+    public void solve(){
+        for (int currentRow = 0; currentRow < this.row; currentRow ++){
+            int currentCol = searchForNonZero(currentRow);
+            removeNeighbors(currentRow, currentCol);
+        }
     }
 
-    public static Matrix matrixMultiplication(Matrix matrixA, Matrix matrixB) {
-        int [][] matrixResult = new int[matrixA.row][matrixB.col];
-
-        if(matrixA.col != matrixB.row)
-        {
-            return null;
-        }
-        for(int i = 0; i<matrixResult.length; i ++)
-        {
-            for(int j=0; j<matrixB.col; j++)
-            {
-                int sum = 0;
-                for(int k = 0; k<matrixA.row; k ++)
-                {
-                    sum += matrixA.matrix[i][k]*matrixB.matrix[k][j];
+    private int searchForNonZero(int row){
+        for(int currentCol = row; currentCol < this.col; currentCol ++) {
+            for(int currentRow = row; currentRow < this.row; currentRow ++) {
+                if (this.matrix[currentRow][currentCol] != 0){
+                    if (this.matrix[currentRow][currentCol] != 1)
+                        rowMultiplication(currentRow, 1/ (this.matrix[currentRow][currentCol]));
+                    if (currentRow != row)
+                        rowSwap(currentRow, row);
+                    return currentCol;
                 }
-                matrixResult[i][j] = sum;
             }
         }
+        return this.col;
+    }
 
-        return new Matrix(matrixResult);
+    private void removeNeighbors(int row, int col){
+        for (int rowToEdit = row + 1; rowToEdit < this.row; rowToEdit ++){
+            if(this.matrix[rowToEdit][col] != 0){
+                rowAddition(row , rowToEdit, rowToEdit,
+                        -1 * this.matrix[rowToEdit][col], 1);
+            }
+        }
+    }
+
+    public static Matrix matrixMultiplication (Matrix matrixA, Matrix matrixB) throws MatrixException {
+        if (matrixA.col != matrixB.row){
+            throw new MatrixMultiplicationException();
+        }
+        Matrix result = new Matrix(matrixA.row, matrixB.col);
+        for (int k = 0; k < matrixB.col; k ++){
+            for(int i = 0; i< matrixA.row; i ++){
+                int count = 0;
+                for(int j = 0; j < matrixA.col; j++){
+                    count += matrixA.matrix[i][j] * matrixB.matrix[j][k];
+                }
+                result.matrix[i][k] = count;
+            }
+        }
+        return result;
     }
 
     @Override
@@ -126,16 +141,18 @@ public class Matrix implements MatrixInterface{
     }
 
     @Override
-    public void printMatrix() {
-        for(int[] row: this.matrix)
+    public String toString() {
+        StringBuilder matrixOutput = new StringBuilder();
+        for(double [] row: this.matrix)
         {
-            System.out.print("{");
-            for(int number: row)
+            matrixOutput.append("{");
+            for(double number: row)
             {
-                System.out.print(number + " ");
+                matrixOutput.append(number).append(" ");
             }
-            System.out.println("}");
+            matrixOutput.append("}\n");
         }
 
+        return matrixOutput.toString();
     }
 }
